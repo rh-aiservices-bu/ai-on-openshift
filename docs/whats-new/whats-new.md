@@ -1,5 +1,7 @@
 # What's new?
 
+**2025-12-01**: Add [Configuring TrustyAI Guardrails Orchestrator with HTTPS and API Key Authentication](../odh-rhoai/trustyai-guardrails-https-auth-guide.md)
+
 **2025-11-05**: Add [Deploying Models from Public OCI Registries](../odh-rhoai/deploy-models-from-public-oci.md)
 
 **2025-07-28**: Add [Managing Secrets in an AI Platform](../odh-rhoai/secret-management.md)

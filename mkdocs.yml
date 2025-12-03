@@ -126,6 +126,7 @@ nav:
       - Connect to RHOAI Workbench Kernel from VS Code: odh-rhoai/connect-vscode-to-rhoai-wb.md
       - AnythingLLM as Custom Workbench: odh-rhoai/custom-workbench-anythingllm.md
       - Deploying a Red Hat Validated Model in a Disconnected OpenShift AI Environment: odh-rhoai/deploy-validated-models-on-disconnected.md
+      - Configuring TrustyAI Guardrails Orchestrator with HTTPS and API Key Authentication: odh-rhoai/trustyai-guardrails-https-auth-guide.md
     - GitOps:
       - GitOps (CRs, objects,...): odh-rhoai/gitops.md
       - RHOAI BU Cluster GitOps: odh-rhoai/rhoaibu-cluster-gitops.md
