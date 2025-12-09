@@ -57,6 +57,20 @@ After enabling the odhApplication component, wait 1-2 minutes and the tile shoul
 !!! note
     This feature requires ODH v1.4.1 or newer
 
+#### Troubleshooting
+
+##### CreateContainerConfigError: secret "mlflow-server" not found
+
+In some cases, the `mlflow-server` pod main fail to start on the initial install and the container will go into a `CreateContainerConfigError` state.  If you check the events of the pod, you will see it reporting the following:
+
+```
+Error: secret "mlflow-server" not found
+```
+
+This is usually an indicator that the `ObjectBucketClaim` did not successfully create a secret or has not fully completed deploying.
+
+In most cases you may need to wait a minute or two for the ObjectBucketClaim to finish setting up and creating the secret.  Once the secret has been created, you can delete the pod and it will resolve the issue.
+
 ### Test MLFlow
 
 - Go to the OpenShift Console and switch to Developer view.
