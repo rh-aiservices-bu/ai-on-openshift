@@ -127,6 +127,7 @@ nav:
       - AnythingLLM as Custom Workbench: odh-rhoai/custom-workbench-anythingllm.md
       - Deploying a Red Hat Validated Model in a Disconnected OpenShift AI Environment: odh-rhoai/deploy-validated-models-on-disconnected.md
       - Configuring TrustyAI Guardrails Orchestrator with HTTPS and API Key Authentication: odh-rhoai/trustyai-guardrails-https-auth-guide.md
+      - Dynamic Model Autoscaling with KEDA: odh-rhoai/keda-autoscaling.md
     - GitOps:
       - GitOps (CRs, objects,...): odh-rhoai/gitops.md
       - RHOAI BU Cluster GitOps: odh-rhoai/rhoaibu-cluster-gitops.md
