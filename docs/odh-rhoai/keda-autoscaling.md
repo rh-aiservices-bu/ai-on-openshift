@@ -1,8 +1,8 @@
-# Dynamic LLM Autoscaling with KEDA
+# Dynamic LLM Autoscaling with KEDA and KServe
 
-Metrics-based autoscaling for LLM inference services on OpenShift AI using KEDA and vLLM metrics. Scale GPU workloads efficiently based on request queue depth.
+Metrics-based autoscaling for LLM inference services on OpenShift AI using KEDA, KServe and vLLM metrics. Scale GPU workloads efficiently based on request queue depth.
 
-This article is based on the [Dynamic Model Autoscaling Repository](https://github.com/rh-aiservices-bu/dynamic-model-autoscaling){:target="_blank"}, which contains Helm charts, demo scripts, and complete documentation.
+This article is based on the [Dynamic Model Autoscaling Repository](https://github.com/rh-aiservices-bu/dynamic-model-autoscaling){:target="_blank"}, which contains Helm charts and demo scripts.
 
 ## Why KEDA for LLM Autoscaling?
 
