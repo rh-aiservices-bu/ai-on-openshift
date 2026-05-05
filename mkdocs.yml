@@ -111,6 +111,7 @@ nav:
     - Advanced Configuration:
       - Accelerator Profiles: odh-rhoai/accelerator-profiles.md
       - Custom notebooks: odh-rhoai/custom-notebooks.md
+      - Python Packages in Workbenches: odh-rhoai/workbench-python-packages.md
       - Custom Serving Runtime (Triton): odh-rhoai/custom-runtime-triton.md
       - Dashboard configuration: odh-rhoai/configuration.md
       - Deploying Models from Public OCI Registries: odh-rhoai/deploy-models-from-public-oci.md
