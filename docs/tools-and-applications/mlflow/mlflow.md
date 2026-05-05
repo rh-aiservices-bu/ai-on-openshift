@@ -1,5 +1,9 @@
 # MLFlow
 
+> ⚠️ MLflow is now available in OpenShift AI (RHOAI) and OpenData Hub (ODH).  
+    It is recommended to use the product integration instead of the manual installation described on this page.  
+    Please refer to the official [OpenShift AI MLflow documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4/html/release_notes/developer-preview-features_relnotes#three_4_ea1_developer_preview_features) for more information.
+
 ## What is it?
 
 MLflow is an open source platform to manage the ML lifecycle, including experimentation, reproducibility, deployment, and a central model registry. MLflow currently offers four components:
