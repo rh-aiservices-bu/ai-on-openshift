@@ -173,6 +173,7 @@ nav:
   - Generative AI:
     - What is Generative AI?: generative-ai/what-is-generative-ai.md
     - LLM Serving: generative-ai/llm-serving.md
+    - Distributed LLM Serving with LLM-D: generative-ai/llm-d.md
     - Building an Image Generation App: generative-ai/building-an-image-generation-app.md
     - Demos:
       - AI for Everyone: generative-ai/ai-for-everyone.md 
