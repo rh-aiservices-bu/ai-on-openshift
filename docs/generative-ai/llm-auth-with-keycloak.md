@@ -149,3 +149,33 @@ A simplified request flow and arch diagram is shown below.
       --- Bob ---
       HTTP 403
     ```
+
+### From the User's Perspective
+
+Unfortunately, Keycloak doesn't provide a UI for users, like Bob and Alice, to retrieve their JWT.
+
+For them to authenticate with the user, they have to retrieve their token via `curl`. Below is the example for Alice.
+
+```bash
+TOKEN=$(curl -s -X POST \
+  https://${KEYCLOAK_URL}/realms/llm-auth/protocol/openid-connect/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=llm-client" \
+  -d "username=alice" \
+  -d "password=password" \
+  -d "grant_type=password" | jq -r '.access_token')
+```
+
+The token is then used to authenticate with the model, rather than using an OpenShift Token. i.e.
+
+```bash
+curl -s -X POST https://${MODEL_URL}/v1/chat/completions \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "${MODEL_NAME}",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+To provide a more user-friendly experience, a front-end application that handles logging in and the token on behalf of the user, can be used in between. This would be specific to the use-case of the model, for instance, a chatbot UI.  
