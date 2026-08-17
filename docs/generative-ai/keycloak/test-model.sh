@@ -1,7 +1,7 @@
  # ---- Configuration ----
-  KEYCLOAK_URL="https://keycloak.apps.cluster-hts52.hts52.sandbox747.opentlc.com"
+  KEYCLOAK_URL="https://keycloak.apps.<CLUSTER-DOMAIN>"
   MODEL_NAMESPACE="model-deployment"
-  MODEL_NAME="phi-4-fp8"
+  MODEL_NAME="<MODEL-DOMAIN>"
   # -----------------------
 
   REALM="llm-auth"
