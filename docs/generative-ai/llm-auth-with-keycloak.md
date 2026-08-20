@@ -1,4 +1,8 @@
-# LLM Auth With Keycloak
+# LLM Auth With Keycloak 
+
+## Scope
+
+This demo is specifically for models deployed with Red Hat OpenShift AI, and an `LLMInferenceService` object. Models served with `InferenceService` and `ServingRuntime` objects will not use [Red Hat Connectivity Link (RHCL)](https://www.redhat.com/en/technologies/cloud-computing/connectivity-link), and therefore can't use the mechanisms described.
 
 ## Why?
 
@@ -8,7 +12,7 @@ Keycloak allows a user to login to Keycloak, generate a JSON Web Token (JWT) and
 
 ## What?
 
-The main component that goes into this is Authorino, installed by Red Hat Connectivity Link (RHCL). When you deploy a model onto OpenShift using the `LLMInferenceService` method, requests flow through the Gateway API. 
+The main component that goes into this is Authorino, installed by Red Hat Connectivity Link (RHCL). When you deploy a model onto OpenShift using the `LLMInferenceService` method, requests flow through the Gateway API.
 
 The Gateway API has it's own Authorino `AuthPolicy` in the `openshift-ingress` namespace, that assumes all requests must be authenticated with an OpenShift token. However, if you create a new `AuthPolicy` in your deployed model's namespace that configures Keycloak authentication, this takes precedence.
 
