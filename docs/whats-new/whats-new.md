@@ -1,5 +1,9 @@
 # What's new?
 
+**2026-08-17**: Add [LLM Authentication with Keycloak](../generative-ai/llm-auth-with-keycloak.md)
+
+**2026-06-22**: Add [Distributed Serving with llm-d](../generative-ai/llm-d.md)
+
 **2025-12-01**: Add [Configuring TrustyAI Guardrails Orchestrator with HTTPS and API Key Authentication](../odh-rhoai/trustyai-guardrails-https-auth-guide.md)
 
 **2025-11-05**: Add [Deploying Models from Public OCI Registries](../odh-rhoai/deploy-models-from-public-oci.md)
