@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: secor
+  name: secor
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: secor
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: secor
+    spec:
+      containers:
+        - image: quay.io/rh-data-services/secor:0.29-hdp2.9.2_latest
+          name: secor-0-29-hadoop-2-9-2
+          imagePullPolicy: Always
+          env:
+            - name: ZOOKEEPER_PATH
+              value: "/"
+            - name: ZOOKEEPER_QUORUM
+              value: "zoo-entrance:2181"
+            - name: KAFKA_SEED_BROKER_HOST
+              value: "YOUR_KAFKA-kafka-brokers"
+            - name: KAFKA_SEED_BROKER_PORT
+              value: "9092"
+            - name: AWS_ACCESS_KEY
+              value: YOUR_KEY
+            - name: AWS_SECRET_KEY
+              value: YOUR_SECRET
+            - name: AWS_ENDPOINT
+              value: YOUR_ENDPOINT
+            - name: AWS_PATH_STYLE_ACCESS
+              value: "true"
+            - name: SECOR_S3_BUCKET
+              value: YOUR_BUCKET
+            - name: SECOR_GROUP
+              value: "raw_logs"
+            #        - name: SECOR_S3_PATH
+            #          value: "kafka-messages"
+            - name: KAFKA_OFFSETS_STORAGE
+              value: "zookeeper"
+            - name: SECOR_MAX_FILE_SECONDS
+              value: "10"
+            - name: SECOR_MAX_FILE_BYTES
+              value: "10000"
+            - name: SECOR_UPLOAD_MANAGER
+              value: "com.pinterest.secor.uploader.S3UploadManager"
+            - name: SECOR_MESSAGE_PARSER
+              # value: "com.pinterest.secor.parser.OffsetMessageParser"
+              value: "com.pinterest.secor.parser.JsonMessageParser"
+            - name: DEBUG
+              value: "True"
+            - name: SECOR_KAFKA_TOPIC_FILTER
+              value: "my_topic"
+            - name: SECOR_WRITER_FACTORY
+              value: "com.pinterest.secor.io.impl.JsonORCFileReaderWriterFactory"
+            - name: SECOR_COMPRESSION_CODEC
+              value: ""
+            - name: SECOR_FILE_EXTENSION
+              value: ""
+            - name: PARTITIONER_GRANULARITY_HOUR
+              value: "false"
+            - name: PARTITIONER_GRANULARITY_MINUTE
+              value: "false"
+            - name: KAFKA_USE_TIMESTAMP
+              value: "true"
+            - name: SECOR_FILE_WRITER_DELIMITER
+              value: ""
+            - name: SECOR_ORC_MESSAGE_SCHEMA
+              value: ''
+          volumeMounts:
+            - name: "local-mount"
+              mountPath: "/mnt/secor_data/message_logs/partition"
+      volumes:
+        - name: local-mount
+          emptyDir: {}

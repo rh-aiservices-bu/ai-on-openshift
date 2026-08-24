@@ -1,0 +1,14 @@
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: WorkloadPriorityClass
+metadata:
+  name: prod-priority
+value: 1000
+description: "Priority class for prod jobs"
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: WorkloadPriorityClass
+metadata:
+  name: dev-priority
+value: 100
+description: "Priority class for development jobs"

@@ -1,0 +1,70 @@
+# Team B is using dev-priority
+# Total CPU: 6      
+# Total Mem: 16G 
+apiVersion: ray.io/v1
+kind: RayCluster
+metadata:
+  labels:  
+    kueue.x-k8s.io/queue-name: local-queue
+    kueue.x-k8s.io/priority-class: dev-priority
+  name: raycluster-dev
+  namespace: team-b
+spec:
+  rayVersion: 2.7.0
+  headGroupSpec:
+    enableIngress: false
+    rayStartParams:
+      block: "true"
+      dashboard-host: 0.0.0.0
+      num-gpus: "0"    
+    template:
+      metadata: {}
+      spec:
+        containers:
+        - env:
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: "void"
+          image: quay.io/project-codeflare/ray:latest-py39-cu118
+          imagePullPolicy: Always
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - ray stop
+          name: ray-head
+          resources:
+            limits:
+              cpu: "2"
+              memory: 8G              
+            requests:
+              cpu: "2"
+              memory: 8G
+  suspend: false
+  workerGroupSpecs:
+  - groupName: small-group-test
+    maxReplicas: 2
+    minReplicas: 2
+    numOfHosts: 1
+    rayStartParams:
+      block: "true"
+      num-gpus: "0"
+    replicas: 2
+    scaleStrategy: {}
+    template:
+      spec:
+        containers:
+        - env:
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: "void"
+          name: machine-learning
+          image: quay.io/project-codeflare/ray:latest-py39-cu118
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4G
+            requests:
+              cpu: "2"
+              memory: 4G

@@ -1,0 +1,15 @@
+apiVersion: sources.knative.dev/v1beta1
+kind: KafkaSource
+metadata:
+  name: kafka-source
+spec:
+  consumerGroup: "knative-consumer-group"
+  bootstrapServers:
+    - YOUR_BOOTSTRAP.YOUR_NAMESPACE.svc:9092
+  topics:
+    - example_topic
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: greeter

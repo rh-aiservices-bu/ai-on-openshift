@@ -1,0 +1,359 @@
+<!-- Custom HTML site displayed as the Home chapter -->
+
+{% extends "main.html" %}
+{% block tabs %}
+{{ super() }}
+<style>
+    .md-main {
+        flex-grow: 0
+    }
+
+    .md-main__inner {
+        display: flex;
+        height: 100%;
+    }
+
+    .tx-container {
+        padding-top: .0rem;
+        position: relative;
+    }
+
+    .tx-container::before {
+        /*using pseudo element to change background image opacity*/
+        content: " ";
+        background-image: url(assets/landscape.avif);
+        background-image: url(assets/landscape.avif), linear-gradient(to bottom, #af1a4f, #05061c 99%);
+        background-size: cover;
+        position: absolute;
+        opacity: 0.75;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        z-index: -1;
+        /* Below other contents */
+    }
+
+    .tx-hero {
+        margin: 32px 2.8rem;
+        color: var(--md-primary-bg-color);
+        justify-content: center;
+    }
+
+    .tx-hero h1 {
+        margin-bottom: 1rem;
+        color: currentColor;
+        font-weight: 700
+    }
+
+    .tx-hero__content {
+        padding-bottom: 1rem;
+        margin: 0 auto;
+    }
+
+    .tx-hero__image {
+        width: 17rem;
+        height: 17rem;
+        order: 1;
+        padding-top: 1rem;
+        padding-right: 2.5rem;
+    }
+
+    .tx-hero .md-button {
+        margin-top: .5rem;
+        margin-right: .5rem;
+        margin-left: 5rem;
+        color: var(--md-primary-bg-color)
+    }
+
+    .tx-hero .md-button--primary {
+        background-color: var(--md-primary-bg-color);
+        color: rgb(255, 0, 0);
+        border-color: var(--md-primary-bg-color)
+    }
+
+    .tx-hero .md-button:focus,
+    .tx-hero .md-button:hover {
+        background-color: var(--md-accent-fg-color);
+        color: var(--md-default-bg-color);
+        border-color: var(--md-accent-fg-color)
+    }
+
+    .feature-item h2 svg {
+        height: 30px;
+        float: left;
+        margin-right: 10px;
+        transform: translateY(10%);
+    }
+
+    .top-hr {
+        margin-top: 42px;
+        background-color: #fff;
+    }
+
+    .feature-item {
+        font-family: 'Lato', sans-serif;
+        font-weight: 300;
+        box-sizing: border-box;
+        padding: 0 15px;
+        word-break: break-word
+    }
+
+    .feature-item h2 {
+        color: #333;
+        font-weight: 300;
+        font-size: 25px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: normal;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-family: inherit;
+    }
+
+    .feature-item p {
+        font-size: 16px;
+        font-weight: 370;
+        line-height: 1.8em;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        color: #111;
+        margin: 0 0 10px;
+        display: block;
+    }
+
+    @media screen and (max-width:30em) {
+        .tx-hero h1 {
+            font-size: 1.4rem
+        }
+    }
+
+    @media screen and (min-width:60em) {
+        .md-sidebar--secondary {
+            display: none
+        }
+
+        .tx-hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tx-hero__content {
+            max-width: 22rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            margin-left: 1.0rem;
+            margin-right: 4.0rem;
+            align-items: center;
+        }
+    }
+
+    @media screen and (min-width:76.25em) {
+        .md-sidebar--primary {
+            display: none
+        }
+
+        .top-hr {
+            width: 100%;
+            display: flex;
+            max-width: 61rem;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0 .2rem;
+        }
+
+        .bottom-hr {
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            max-width: 61rem;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0 .2rem;
+        }
+
+        .feature-item {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .feature-item:hover {
+            background-color: #fe525247;
+            border-radius: 3px;
+        }
+    }
+
+    .hr {
+        border-bottom: 1px solid #eee;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .text-center {
+        text-align: center;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 15px;
+        font-family: 'Lato', sans-serif;
+        font-size: 23px;
+        font-weight: 300;
+        padding-bottom: 10px;
+    }
+
+    .logos {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: row wrap;
+        margin: 0 auto;
+    }
+
+    .logos img {
+        flex: 1 1 auto;
+        padding: 25px;
+        max-height: 130px;
+        vertical-align: middle;
+    }
+
+    .hr-logos {
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+
+    .md-footer-meta__inner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 1.0rem;
+    }
+
+    .md-footer-social {
+        padding-top: 20px;
+    }
+</style>
+
+<!-- Main site Entry button descriptions -->
+<section class="tx-container">
+    <div class="md-grid md-typeset">
+        <div class="tx-hero">
+            <div class="tx-hero__image">
+                <img src="assets/robot.png" draggable="false">
+            </div>
+            <div class="tx-hero__content">
+                <img src="assets/ai-on-openshift-title.svg" draggable="false">
+                <h2>The one-stop shop for AI/ML,<br/>Data Science and Data Engineering<br/>on OpenShift!</h2>
+                <a href="/getting-started/why-this-site/" title="Getting started"
+                    class="md-button md-button--primary">
+                    Get started
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main site box descriptions -->
+
+<div class="top-hr">
+    <div class="feature-item">
+        <a href="/tools-and-applications/airflow/airflow/">
+        <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <defs id="defs335">
+                    <style id="style333">
+                        .cls-1 {
+                            fill: none;
+                            stroke: #020202;
+                            stroke-miterlimit: 10;
+                            stroke-width: 1.91px;
+                        }
+                    </style>
+                </defs>
+                <rect class="cls-1" x="-5.6564951" y="14.854859" width="11.313831" height="4.2426867"
+                    transform="rotate(-45.000003)" id="rect337" />
+                <circle class="cls-1" cx="18.99782" cy="5.0021806" id="circle339" r="4.0017443" />
+                <circle class="cls-1" cx="5.0021806" cy="18.99782" id="circle341" r="4.0017443" />
+                <path class="cls-1"
+                    d="M 11.999992,9.0039256 9.0039239,11.999994 5.997378,9.0039256 H 3.9965059 A 3.0065459,3.006546 0 0 1 1.000436,5.9973796 V 3.9965075 L 1.4194666,4.4155383 A 2.1999115,2.1999118 0 0 0 4.3422061,4.6669568 2.095154,2.095154 0 0 0 4.4993428,1.5242257 L 3.9965059,1.0004372 H 5.997378 a 3.0065459,3.006546 0 0 1 3.0065459,2.9960703 v 2.0008721 z"
+                    id="path343" />
+                <path class="cls-1"
+                    d="m 20.003481,14.996065 a 3.0065459,3.006546 0 0 1 2.996069,3.006545 v 2.000872 l -0.419027,-0.419031 a 2.1999115,2.1999118 0 0 0 -2.922738,-0.251418 2.095154,2.095154 0 0 0 -0.157137,3.142731 l 0.502838,0.502837 h -2.000878 a 3.0065459,3.006546 0 0 1 -3.006546,-2.99607 V 18.00261 l -2.99607,-3.006545 2.99607,-2.996071 3.006546,2.996071 z"
+                    id="path345" />
+            </svg>
+            Tools and Applications
+        </h2>
+        <p>Howtos, recipes, and best practices to install and run on OpenShift various tools and applications related to data science and data engineering.</p>
+    </a>
+    </div>
+    <div class="feature-item">
+        <a href="/patterns/bucket-notifications/bucket-notifications">
+        <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <defs id="defs1040">
+                    <style id="style1038">
+                        .cls-1 {
+                            fill: none;
+                            stroke: #020202;
+                            stroke-miterlimit: 10;
+                            stroke-width: 1.91px;
+                        }
+                    </style>
+                </defs>
+                <ellipse class="cls-1" cx="3.0013094" cy="3.0013096" id="circle1042" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="12" cy="3.0013096" id="circle1044" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="20.99869" cy="3.0013096" id="circle1046" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="3.0013094" cy="12" id="circle1048" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="12" cy="12" id="circle1050" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="20.99869" cy="12" id="circle1052" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="3.0013094" cy="20.998692" id="circle1054" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="12" cy="20.998692" id="circle1056" rx="2.0008729" ry="2.0008731" />
+                <ellipse class="cls-1" cx="20.99869" cy="20.998692" id="circle1058" rx="2.0008729" ry="2.0008731" />
+                <line class="cls-1" x1="10.585771" y1="10.585771" x2="4.4155393" y2="4.4155393" id="line1060" />
+                <line class="cls-1" x1="12" y1="18.997818" x2="12" y2="14.000874" id="line1062" />
+                <line class="cls-1" x1="18.997818" y1="3.0013096" x2="14.000873" y2="3.0013096" id="line1064" />
+                <line class="cls-1" x1="9.9991264" y1="3.0013096" x2="5.002183" y2="3.0013096" id="line1066" />
+            </svg>
+            Patterns
+        </h2>
+        <p>Reusable architectural patterns with code and examples to help quickly setup your data pipelines.</p>
+    </a>
+    </div>
+    <div class="feature-item">
+        <a href="/demos/credit-card-fraud-detection-mlflow/credit-card-fraud">
+        <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <defs id="defs784">
+                    <style id="style782">
+                        .cls-1 {
+                            fill: none;
+                            stroke: #020202;
+                            stroke-miterlimit: 10;
+                            stroke-width: 1.92px;
+                        }
+                    </style>
+                </defs>
+                <g id="presentation_standing" data-name="presentation standing"
+                    transform="matrix(1.0434783,0,0,1.0434578,-0.52173913,-0.54306164)">
+                    <line class="cls-1" x1="0.5" y1="1.48" x2="23.5" y2="1.48" id="line786" />
+                    <line class="cls-1" x1="0.5" y1="16.809999" x2="23.5" y2="16.809999" id="line788" />
+                    <rect class="cls-1" x="2.4200001" y="1.48" width="19.17" height="15.33" id="rect790" />
+                    <line class="cls-1" x1="12" y1="16.809999" x2="12" y2="23.52" id="line792" />
+                    <polyline class="cls-1" points="8.17 23.52 8.17 22.56 12 19.69" id="polyline794" />
+                    <polyline class="cls-1" points="15.83 23.52 15.83 22.56 12 19.69" id="polyline796" />
+                </g>
+            </svg>
+            Demos
+        </h2>
+        <p>Full-blown demos illustrating through concrete use cases how you can use the different
+          tools and patterns to create you own intelligent solutions.</p>
+        </a>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}{% endblock %}
