@@ -1,7 +1,7 @@
 # LLM Serving
 
 !!! info
-    All source files and examples used in this article are available on **[this repo](https://github.com/rh-aiservices-bu/llm-on-openshift){:target="_blank"}**!
+    All source files and examples used in this article are available in **[this repo](https://github.com/rh-aiservices-bu/llm-on-openshift){:target="_blank"}**!
 
 **LLMs (Large Language Models)** are the subject of the day. And of course, you can definitely work with them on OpenShift with ODH or RHOAI, from creating a Chatbot, using them as simple APIs to summarize or translate texts, to deploying a full application that will allow you to quickly query your documentation or knowledge base in natural language.
 
