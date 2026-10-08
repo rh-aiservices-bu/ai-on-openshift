@@ -176,6 +176,7 @@ nav:
     - Distributed LLM Serving with llm-d: generative-ai/llm-d.md
     - Building an Image Generation App: generative-ai/building-an-image-generation-app.md
     - LLM Authentication with Keycloak: generative-ai/llm-auth-with-keycloak.md
+    - High Availability: generative-ai/high-availability.md
     - Demos:
       - AI for Everyone: generative-ai/ai-for-everyone.md 
       - Chat with your documentation: demos/llm-chat-doc/llm-chat-doc.md
