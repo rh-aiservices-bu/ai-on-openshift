@@ -1,0 +1,110 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoo-entrance
+  namespace: NAMESPACE
+  labels:
+    app: zoo-entrance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoo-entrance
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zoo-entrance
+    spec:
+      containers:
+        - name: zoo-entrance
+          image: "quay.io/rh-data-services/zoo-entrance:latest"
+          command:
+            - /opt/stunnel/stunnel_run.sh
+          ports:
+            - containerPort: 2181
+              name: zoo
+              protocol: TCP
+          env:
+            - name: LOG_LEVEL
+              value: notice
+            - name: STRIMZI_ZOOKEEPER_CONNECT
+              value: "YOUR_KAFKA-zookeeper-client:2181"
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+                - /opt/stunnel/stunnel_healthcheck.sh
+                - "2181"
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - /opt/stunnel/stunnel_healthcheck.sh
+                - "2181"
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          volumeMounts:
+            - mountPath: /etc/cluster-operator-certs/
+              name: cluster-operator-certs
+            - mountPath: /etc/cluster-ca-certs/
+              name: cluster-ca-certs
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: cluster-operator-certs
+          secret:
+            defaultMode: 288
+            secretName: YOUR_KAFKA-cluster-operator-certs
+        - name: cluster-ca-certs
+          secret:
+            defaultMode: 288
+            secretName: YOUR_KAFKA-cluster-ca-cert
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: zoo-entrance
+  name: zoo-entrance
+  namespace: NAMESPACE
+spec:
+  ports:
+    - name: zoo
+      port: 2181
+      protocol: TCP
+      targetPort: 2181
+  selector:
+    app: zoo-entrance
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app: zoo-entrance
+  name: zoo-entrance
+  namespace: NAMESPACE
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: zoo-entrance
+      ports:
+        - port: 2181
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      strimzi.io/name: YOUR_KAFKA-zookeeper
+  policyTypes:
+    - Ingress

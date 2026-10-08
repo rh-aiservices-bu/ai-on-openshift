@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:  
+  labels:
+    kubernetes.io/metadata.name: team-a
+    opendatahub.io/dashboard: "true"
+  name: team-a  

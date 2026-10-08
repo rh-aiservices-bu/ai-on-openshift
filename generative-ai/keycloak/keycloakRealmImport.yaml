@@ -1,0 +1,42 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: KeycloakRealmImport
+metadata:
+  name: llm-auth-realm
+  namespace: keycloak
+spec:
+  keycloakCRName: keycloak
+  realm:
+    realm: llm-auth                     #1
+    enabled: true
+    clients:
+    - clientId: llm-client              #2
+      enabled: true
+      publicClient: true
+      directAccessGrantsEnabled: true
+      standardFlowEnabled: false
+      roles:
+      - name: auth-to-model             #3
+    users:
+    - username: alice                   #4
+      firstName: Alice
+      lastName: Test
+      email: alice@test.com
+      enabled: true
+      requiredActions: []
+      credentials:
+      - type: password
+        value: password
+        temporary: false
+      clientRoles:
+        llm-client:
+        - auth-to-model
+    - username: bob                     #4
+      firstName: Bob
+      lastName: Test
+      email: bob@test.com
+      enabled: true
+      requiredActions: []
+      credentials:
+      - type: password
+        value: password
+        temporary: false

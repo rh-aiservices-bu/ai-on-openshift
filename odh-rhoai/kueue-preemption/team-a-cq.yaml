@@ -1,0 +1,35 @@
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: team-a-cq
+spec:
+  preemption:
+    reclaimWithinCohort: Any
+    borrowWithinCohort:
+      policy: LowerPriority
+      maxPriorityThreshold: 100
+    withinClusterQueue: Never
+  namespaceSelector:  
+    matchLabels:
+      kubernetes.io/metadata.name: team-a
+  queueingStrategy: BestEffortFIFO
+  cohort: team-ab
+  resourceGroups:
+  - coveredResources:
+    - cpu
+    - memory
+    flavors:
+    - name: default-flavor
+      resources:
+      - name: cpu
+        nominalQuota: 0
+      - name: memory
+        nominalQuota: 0
+  - coveredResources:
+    - nvidia.com/gpu
+    flavors:
+    - name: gpu-flavor
+      resources:
+      - name: nvidia.com/gpu
+        nominalQuota: "4"
+  
