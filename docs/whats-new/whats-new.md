@@ -1,5 +1,7 @@
 # What's new?
 
+**2026-10-27**: Add [Blue-Green Deployments](../generative-ai/high-availability.md#blue-green-canary-deployments) information to High Availability section for Gen-AI.
+
 **2026-10-08**: Add [High Availability](../generative-ai/high-availability.md) section for Gen-AI
 
 **2026-08-17**: Add [LLM Authentication with Keycloak](../generative-ai/llm-auth-with-keycloak.md)
