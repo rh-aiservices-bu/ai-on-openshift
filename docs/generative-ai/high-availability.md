@@ -164,9 +164,6 @@ In this situation, the PDB will ensure model uptime, even when MCP updates aren'
 
 ## Blue-Green / Canary Deployments
 
-!!! note
-    This is available only for models deployed with `LLMInferenceService` objects.
-
 Blue-Green deployments were originally a technique for application deployment in which you deploy 2 versions of the application side by side and split the requests between them, to measure the new version's (Green) performance against the old (Blue). 
 
 This deployment process is also possible with models served with vLLM using the llm-d framework. This is a particularly powerful technique for maintaining high availability in the cases where you want to:
@@ -180,6 +177,9 @@ Within Red Hat OpenShift AI, all models served via `LLMInferenceService` objects
 - Customers' subscriptions, API keys, model name and model endpoint will remain the same. Any applications utilising the model will not have to be updated.
 - After the cut over, the metrics of the model, reported by OpenShift AI, will not be continuous. As new pods for the `InferencePool` are being spun up, they will be reported separately from the metrics originating from the old pods.
 - The KV cache will need to be rebuilt, as the `inferencePool` pods storing it will be replaced by new `inferencePool` pods.   
+
+!!! note
+    This is available only for models deployed with `LLMInferenceService` objects.
 
 ### Deployment Steps
 
