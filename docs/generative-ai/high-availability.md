@@ -175,11 +175,11 @@ This deployment process is also possible with models served with vLLM using the 
 - Test a different vLLM configuration for a model.
 - Trial a new version of a model.
 
-Within Red Hat OpenShift AI, models served via `LLMInferenceService` objects (including Models-as-a-Service (MaaS)) can take advantage of the following process. When MaaS is being used, note the following:
+Within Red Hat OpenShift AI, all models served via `LLMInferenceService` objects can take advantage of this process. In the case of models exposed via MaaS, please note the following:
 
 - Customers' subscriptions, API keys, model name and model endpoint will remain the same. Any applications utilising the model will not have to be updated.
 - After the cut over, the metrics of the model, reported by OpenShift AI, will not be continuous. As new pods for the `InferencePool` are being spun up, they will be reported separately from the metrics originating from the old pods.
-- The KV cache will need to be rebuilt, as the `inferencePool` pods storing them will be replaced by new `inferencePool` pods.   
+- The KV cache will need to be rebuilt, as the `inferencePool` pods storing it will be replaced by new `inferencePool` pods.   
 
 ### Deployment Steps
 
@@ -279,6 +279,8 @@ We can use this to affect the traffic flow to the `LLMInferenceService`'s `infer
 
 Using the [`set-mirror.sh`](https://github.com/rh-aiservices-bu/rhoai-canary-deployments/blob/main/scripts/set-mirror.sh) script, traffic that is going to the Blue deployment, will start to be mirrored to the Green deployment.
 
+This script will take the current traffic rules defined in the `HTTPRoute`, add a "RequestMirror" filter to them where appropriate, and apply the updated rules to the `LLMInferenceService` object. This "requestMirror" filter references the Green deployment's `inferencePool`, therefore sending mirrored requests to the Green model pods. The responses of these mirrored requests are dropped.
+
 ```bash
 $ scripts/set-mirror.sh redhataiphi-4-fp8-dynamic
 
@@ -288,13 +290,10 @@ llminferenceservice.serving.kserve.io/redhataiphi-4-fp8-dynamic patched
 
 HTTPRoute ResolvedRefs: True
 
-Note: Istio does not support the 'percent' field on RequestMirror — every request is mirrored.
 To remove mirroring, run: ./set-mirror.sh redhataiphi-4-fp8-dynamic --revert
 ```
 
-This script will take the current traffic rules defined in the `HTTPRoute`, add a "RequestMirror" filter to them where appropriate, and apply the updated rules to the `LLMInferenceService` object. This "requestMirror" filter references the Green deployment's `inferencePool`, therefore sending mirrored requests to the Green model pods. The responses of these mirrored requests are dropped.
-
-The benefit of this form of testing is you are able to load test the Green deployment without upsetting any consumers. This is also an excellent time to measure model performance metrics such as its "time to first token" (TTFT), latency and throughput, against the Blue deployment. As they are receiving the exact same requests, the comparison is 1:1.
+The benefit of mirroring the requests is that you are able to test the Green deployment with real user traffic, without being exposed to those customers. This makes it an excellent time to measure model performance metrics such as its "time to first token" (TTFT), latency and throughput, against the Blue deployment. As they are receiving the exact same requests, the comparison is 1:1.
 
 To revert the mirror you need to run the same command again with `--revert`. This will do the change in reverse, and remove the entries in the `LLMInferenceService`, which in turn will reconcile the HTTPRoute.
 
@@ -315,6 +314,8 @@ Mirror removed.
 
 Using the [`set-canary-weight.sh`](https://github.com/rh-aiservices-bu/rhoai-canary-deployments/blob/main/scripts/set-canary-weight.sh) script, the traffic flowing to the Blue deployment can now be divided and partially sent to the Green deployment. In the above image, we've split them 50:50. The responses to the users' requests will now come from _both_ models.
 
+Similar to the `set-mirror.sh` script above, the `set-canary-weight.sh` script will take the rules from the Blue deployment's `HTTPRoute` object, and modify them. Whenever any "backendRefs" refer to Blue's `InferencePool`, a "weight" argument is added, as well as a reference to Green's `inferencePool`, with its own corresponding "weight". These rules are then applied to Blue's `LLMInferenceService`, which filter down to the `HTTPRoute`.
+
 ```bash
 $ scripts/set-canary-weight.sh redhataiphi-4-fp8-dynamic
 
@@ -326,8 +327,6 @@ llminferenceservice.serving.kserve.io/redhataiphi-4-fp8-dynamic patched
 
 HTTPRoute ResolvedRefs: True
 ```
-
-Similar to the `set-mirror.sh` script above, the `set-canary-weight.sh` script will take the rules from the Blue deployment's `HTTPRoute` object, and modify them. Whenever any "backendRefs" refer to Blue's `InferencePool`, a "weight" argument is added, as well as a reference to Green's `inferencePool`, with its own corresponding "weight". These rules are then applied to Blue's `LLMInferenceService`, which filter down to the `HTTPRoute`. 
 
 At this point, if you use the [`continuous-inference.sh`](https://github.com/rh-aiservices-bu/rhoai-canary-deployments/blob/main/scripts/continuous-inference.sh) script in the repository, you will now see that ~50% of requests will return with the original vLLM version (0.24.0) and the other 50% will be the new vLLM version (0.28.0).
 
