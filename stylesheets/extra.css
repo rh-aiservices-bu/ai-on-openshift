@@ -1,0 +1,24 @@
+img {
+    border: 1px solid #cccccc;
+    transition: transform ease-in-out 0.3s;
+}
+
+div.tx-hero__content img {
+    border: none;
+}
+
+div.tx-hero__image img {
+    border: none;
+}
+
+.noborder {
+    border: none;
+}
+
+a.md-logo img {
+    border: none;
+}
+
+.md-nav__item--section>.md-nav__link[for] {
+    color:grey;
+}

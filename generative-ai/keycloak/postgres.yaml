@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keycloak-db-secret
+  namespace: keycloak
+type: Opaque
+stringData:
+  username: keycloak
+  password: keycloak
+  dbname: keycloak
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-pgsql
+  namespace: keycloak
+  labels:
+    app: keycloak-pgsql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-pgsql
+  template:
+    metadata:
+      labels:
+        app: keycloak-pgsql
+    spec:
+      containers:
+        - name: pgsql
+          image: registry.redhat.io/rhel9/postgresql-16:1-1787043427 # "latest" at time of writing.
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: username
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: password
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: dbname
+          ports:
+            - containerPort: 5432
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-pgsql
+  namespace: keycloak
+  labels:
+    app: keycloak-pgsql
+spec:
+  selector:
+    app: keycloak-pgsql
+  ports:
+    - port: 5432
+      targetPort: 5432
